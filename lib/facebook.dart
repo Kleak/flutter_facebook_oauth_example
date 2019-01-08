@@ -39,7 +39,7 @@ Future<Token> getToken(String appId, String appSecret) async {
   final String code = await onCode.first;
   final http.Response response = await http.get(
       "https://graph.facebook.com/v2.2/oauth/access_token?client_id=$appId&redirect_uri=http://localhost:8080/&client_secret=$appSecret&code=$code");
-  return new Token.fromMap(JSON.decode(response.body));
+  return new Token.fromMap(jsonDecode(response.body));
 }
 class Token {
   final String access;
@@ -94,6 +94,6 @@ class FacebookGraph {
     String _fields = fields.join(",");
     final http.Response response = await http
         .get("$_baseGraphUrl/me?fields=$_fields&access_token=${token.access}");
-    return new PublicProfile.fromMap(JSON.decode(response.body));
+    return new PublicProfile.fromMap(jsonDecode(response.body));
   }
 }
